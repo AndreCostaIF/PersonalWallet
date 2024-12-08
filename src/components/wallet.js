@@ -1,11 +1,15 @@
-import { StyleSheet, View } from 'react-native';
-import { NativeBaseProvider, Box, Text, FormControl, Input, Stack, WarningOutlineIcon, Center, VStack, Button, Link, useToast, Divider, Heading, HStack, Badge, Pressable } from 'native-base';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { NativeBaseProvider, Box, Text, FormControl, Input, Stack, WarningOutlineIcon, Center, VStack, Button, Link, useToast, Divider, Heading, HStack, Badge, Pressable, Actionsheet, useDisclose } from 'native-base';
 import { MaterialIcons, MaterialCommunityIcons, Entypo, FontAwesome, Octicons, Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 
 export default function Wallet() {
 
-
+    const {
+        isOpen,
+        onOpen,
+        onClose
+    } = useDisclose();
     return (
         <Center>
             <Box
@@ -44,7 +48,7 @@ export default function Wallet() {
                     {/* LISTA DA CARTEIRA */}
                     <Box mb={2}>
                         <HStack mb={2}>
-                            <Pressable padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
+                            <Pressable onPress={onOpen} padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
                                 <Box>
 
                                     <Text fontSize="md">Bitcoin</Text>
@@ -73,7 +77,7 @@ export default function Wallet() {
                         </HStack>
 
                         <HStack mb={2}>
-                            <Pressable padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
+                            <Pressable onPress={onOpen} padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
                                 <Box>
 
                                     <Text fontSize="md">Bitcoin</Text>
@@ -102,7 +106,7 @@ export default function Wallet() {
                         </HStack>
 
                         <HStack mb={2}>
-                            <Pressable onPress={() => console.log('oi')} padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
+                            <Pressable onPress={onOpen} padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
                                 <Box>
 
                                     <Text fontSize="md">Bitcoin</Text>
@@ -115,7 +119,6 @@ export default function Wallet() {
                                         <Text fontSize="sm" color="#757575">R$57,98</Text>
                                     </Box>
                                     <Box>
-
                                         <Badge borderRadius={10} colorScheme="success">
                                             <Text>
                                                 <MaterialCommunityIcons color="green" ml="2" paddingLeft={4} size={13} name="arrow-up-bold" />
@@ -123,16 +126,112 @@ export default function Wallet() {
 
                                             </Text>
                                         </Badge>
-
                                     </Box>
                                 </HStack>
 
                             </Pressable>
                         </HStack>
-
                     </Box>
                 </VStack>
             </Box>
+
+            <Actionsheet isOpen={isOpen} onClose={onClose}>
+                <Actionsheet.Content >
+
+                    <View width={Dimensions.get('window').width} padding={8}>
+                        {/* DADOS DA MOEDA */}
+                        <Box>
+                            <HStack alignItems="center" mb={2}>
+                                <Heading mr={1}>Bitcoin</Heading>
+                                <Text color="secondary.40">BTC</Text>
+                            </HStack>
+
+                            <HStack justifyContent="space-between" alignItems="center">
+                                <Text fontSize="md" mr={1}>Saldo em <Text bold>BTC</Text></Text>
+                                <Text color="">BTC 0,0000123</Text>
+                            </HStack>
+                            <HStack justifyContent="space-between" alignItems="center">
+                                <Text fontSize="md" mr={1}>Saldo em <Text bold>Reais</Text></Text>
+                                <Text color="">R$ 57,38</Text>
+                            </HStack>
+                        </Box>
+
+                        <Divider mt={4} mb={4} />
+
+                        {/* COTACAO DA MOEDA */}
+                        <Box>
+                            <HStack justifyContent="space-between" alignItems="center">
+                                <Text fontSize="md" mr={1}>Cotação atual</Text>
+                                <Text color="">R$ 600.157,38</Text>
+                            </HStack>
+                            <HStack justifyContent="space-between" alignItems="center">
+                                <Text fontSize="md" mr={1}>Valorização</Text>
+                                <Badge borderRadius={10} colorScheme="success">
+                                    <Text>
+                                        <MaterialCommunityIcons color="green" ml="2" paddingLeft={4} size={13} name="arrow-up-bold" />
+                                        5,63%
+
+                                    </Text>
+                                </Badge>
+                            </HStack>
+                        </Box>
+
+                        <Divider mt={4} mb={4} />
+
+                        {/* BOTOES DE ACAO */}
+                        <Box mb={2}>
+                            <Box mb={2}>
+                                <HStack justifyContent="space-around">
+                                    <Pressable
+                                        padding={4}
+                                        backgroundColor="#f2f2f2"
+                                        borderRadius={20}
+                                        width={Dimensions.get('window').width / 2.5}
+                                    >
+                                        <Octicons name="arrow-left" size={30} color="green" />
+                                        <Text fontSize={17}>Comprar</Text>
+                                    </Pressable>
+
+                                    <Pressable
+                                        padding={4}
+                                        backgroundColor="#f2f2f2"
+                                        borderRadius={20}
+                                        width={Dimensions.get('window').width / 2.5}
+                                    >
+                                        <Octicons name="arrow-right" size={30} color="red" />
+                                        <Text fontSize={17}>Vender</Text>
+                                    </Pressable>
+                                </HStack>
+                            </Box>
+                            <Box mb={2}>
+                                <HStack justifyContent="space-around">
+                                    <Pressable
+                                        padding={4}
+                                        backgroundColor="#f2f2f2"
+                                        borderRadius={20}
+                                        width={Dimensions.get('window').width / 2.5}
+                                    >
+                                        <MaterialIcons name="compare-arrows" size={30} />
+                                        <Text fontSize={17}>Transações</Text>
+                                    </Pressable>
+
+                                    <Pressable
+                                        padding={4}
+                                        backgroundColor="#f2f2f2"
+                                        borderRadius={20}
+                                        width={Dimensions.get('window').width / 2.5}
+                                    >
+                                        <Octicons name="file" size={30} />
+                                        <Text fontSize={17}>Relatório</Text>
+                                    </Pressable>
+                                </HStack>
+                            </Box>
+                        </Box>
+                    </View>
+
+
+                </Actionsheet.Content>
+            </Actionsheet>
         </Center>
     );
 }

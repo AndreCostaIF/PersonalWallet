@@ -26,9 +26,6 @@ const App = () => {
       body: fontFamily, // Para o corpo do texto
       mono: fontFamily, // Para texto monoespaçado (opcional)
     },
-    text: {
-      fontFamily: fontFamily,
-    },
     colors: {
       primary: {
         40: '#ffff00',
@@ -42,6 +39,9 @@ const App = () => {
         700: '#7f5300',
         800: '#4d3200',
         900: '#1d1000',
+      },
+      secondary:{
+        40: '#757575',
       },
     },
     config: {
