@@ -102,7 +102,7 @@ export default function Wallet() {
                         </HStack>
 
                         <HStack mb={2}>
-                            <Pressable padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
+                            <Pressable onPress={() => console.log('oi')} padding={2} width="100%" flex={1} flexDir="row" justifyContent="space-between">
                                 <Box>
 
                                     <Text fontSize="md">Bitcoin</Text>

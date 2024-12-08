@@ -1,16 +1,34 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { extendTheme, NativeBaseProvider } from 'native-base';
 import React from 'react';
-import { LogBox } from 'react-native';
-import {Provider} from 'react-redux';
+import { LogBox, Text, View, ActivityIndicator } from 'react-native';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { NativeBaseProvider, extendTheme } from 'native-base';
+import { useFonts } from 'expo-font';
 import Routes from './src/routes';
-import { store} from './src/store';
-
+import { store } from './src/store';
 
 LogBox.ignoreAllLogs();
 
 const App = () => {
+  // Carregar as fontes personalizadas
+  const [fontsLoaded] = useFonts({
+    RedditSans: require('./assets/fonts/RedditSans-VariableFont_wght.ttf'),
+    Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+  });
+
+  // Define a fonte a ser utilizada, com fallback para Poppins
+  const fontFamily = fontsLoaded ? 'RedditSans' : 'Poppins';
+
+  // Tema personalizado com a fonte
   const theme = extendTheme({
+    fonts: {
+      heading: fontFamily, // Para títulos
+      body: fontFamily, // Para o corpo do texto
+      mono: fontFamily, // Para texto monoespaçado (opcional)
+    },
+    text: {
+      fontFamily: fontFamily,
+    },
     colors: {
       primary: {
         40: '#ffff00',
@@ -31,6 +49,15 @@ const App = () => {
     },
   });
 
+  // Exibir um carregador enquanto as fontes estão sendo carregadas
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#fdb01c" />
+      </View>
+    );
+  }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -39,7 +66,6 @@ const App = () => {
         </NativeBaseProvider>
       </NavigationContainer>
     </Provider>
-
   );
 };
 

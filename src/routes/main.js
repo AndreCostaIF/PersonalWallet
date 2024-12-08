@@ -1,41 +1,50 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import Index from './mainStack/homeStack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import HomeRoutes from './mainStack/homeStack';
+
 const Tab = createBottomTabNavigator();
 
 export default function Main() {
+  const isHidden = useSelector((state) => state.tabBar.isHidden);
+  const tabBarAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(tabBarAnimation, {
+      toValue: isHidden ? 100 : 0, // 100 para descer, 0 para posição original
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [isHidden]);
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false, // Oculta o cabeçalho
-        tabBarStyle: {
-          position: 'absolute',
-          backgroundColor: '#F2F2F2', // Cor do fundo do menu
-          borderRadius: 50,
-          height: 70,
-          marginHorizontal: 10,
-          bottom: 10,
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 10,
-          opacity: 0.9,
-        },
+        tabBarStyle: [
+          styles.tabBarStyle,
+          {
+            transform: [
+              {
+                translateY: tabBarAnimation, // Controla a posição vertical
+              },
+            ],
+          },
+        ],
         tabBarActiveTintColor: '#000', // Cor do ícone ativo
         tabBarInactiveTintColor: '#92929D', // Cor do ícone inativo
       }}
       initialRouteName="HomeStack"
       backBehavior="initialRoute"
     >
-
       <Tab.Screen
         name="HomeStack"
-        component={HomeRoutes}
+        component={Index}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="wallet" color={color} size={24} />
+          tabBarIcon: ({ color }) => (
+            <Icon name="wallet" size={24} color={color} />
           ),
           tabBarLabel: 'Carteira', // Exibe o título abaixo do ícone
           tabBarLabelStyle: {
@@ -47,7 +56,7 @@ export default function Main() {
 
       <Tab.Screen
         name="HomeStack2"
-        component={HomeRoutes}
+        component={Index}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="compare-arrows" color={color} size={24} />
@@ -60,10 +69,9 @@ export default function Main() {
         }}
       />
 
-
       <Tab.Screen
         name="HomeStack3"
-        component={HomeRoutes}
+        component={Index}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="person" color={color} size={24} />
@@ -75,15 +83,21 @@ export default function Main() {
           },
         }}
       />
-
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  tabBarStyle: {
+    position: 'absolute',
+    backgroundColor: '#F2F2F2', // Cor do fundo do menu
+    height: 70, // Altura do menu
+    bottom: 10, // Espaçamento inferior
+    marginHorizontal: 10, // Espaçamento horizontal
+    borderRadius: 50, // Bordas arredondadas
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    opacity: 0.9, // Transparência leve
   },
 });
