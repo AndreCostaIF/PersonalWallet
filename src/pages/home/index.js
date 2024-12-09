@@ -6,7 +6,7 @@ import Wallet from '../../components/wallet';
 import { useDispatch } from 'react-redux';
 import { hideTabBar, showTabBar } from '../../store/tabBarSlice';
 
-export default function Index() {
+export default function Index({ navigation }) {
   const scrollOffset = useRef(0);
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export default function Index() {
   }
 
   return (
-    <ScrollView flex={1} onScroll={handleScroll} scrollEventThrottle={16}>
+    <ScrollView mb={30} flex={1} onScroll={handleScroll} scrollEventThrottle={16}>
 
       <Box safeArea backgroundColor="#fff" width={Dimensions.get('window').width}>
         {/* SALDO */}
@@ -54,6 +54,9 @@ export default function Index() {
           <Text paddingLeft={5}>Ações rápidas</Text>
           <HStack justifyContent="space-around">
             <Pressable
+              onPress={() => {
+                navigation.navigate('Buy')
+              }}
               padding={4}
               backgroundColor="#f2f2f2"
               borderRadius={20}
@@ -64,6 +67,9 @@ export default function Index() {
             </Pressable>
 
             <Pressable
+              onPress={() => {
+                navigation.navigate('Sell')
+              }}
               padding={4}
               backgroundColor="#f2f2f2"
               borderRadius={20}

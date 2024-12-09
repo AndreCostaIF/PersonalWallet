@@ -136,7 +136,7 @@ export default function Wallet() {
             </Box>
 
             <Actionsheet isOpen={isOpen} onClose={onClose}>
-                <Actionsheet.Content >
+                <Actionsheet.Content>
 
                     <View width={Dimensions.get('window').width} padding={8}>
                         {/* DADOS DA MOEDA */}
@@ -166,13 +166,16 @@ export default function Wallet() {
                             </HStack>
                             <HStack justifyContent="space-between" alignItems="center">
                                 <Text fontSize="md" mr={1}>Valorização</Text>
-                                <Badge borderRadius={10} colorScheme="success">
-                                    <Text>
-                                        <MaterialCommunityIcons color="green" ml="2" paddingLeft={4} size={13} name="arrow-up-bold" />
-                                        5,63%
+                                <Box>
+                                    <Badge borderRadius={10} colorScheme="success" alignSelf="flex-start">
+                                        <HStack alignItems="center">
+                                            <MaterialCommunityIcons color="green" size={13} name="arrow-up-bold" />
+                                            <Text ml={1}>5,63%</Text>
+                                        </HStack>
+                                    </Badge>
 
-                                    </Text>
-                                </Badge>
+
+                                </Box>
                             </HStack>
                         </Box>
 
